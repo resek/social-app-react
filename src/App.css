@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+
+.Navbar {
+  margin: 15px 0;
+}
+
+.Link {
+  margin: 10px;
+}
