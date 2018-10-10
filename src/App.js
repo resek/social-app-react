@@ -9,12 +9,12 @@ import setAuthToken from "./utils/setAuthToken";
 setAuthToken(localStorage.jwtToken);
 
 class App extends Component {
-    render() {      
+    render() {
         return (
             <div className="App">
                 <div className="Navbar">
                     <Link className="Link" to="/">Home</ Link>
-                    <Link className="Link" to="/auth">Signup / Login</ Link>
+                    <Link className="Link" to="/auth">Signup/in</ Link>
                 </div>
                 <Switch>
                     <Route path="/auth" component={Auth} />
