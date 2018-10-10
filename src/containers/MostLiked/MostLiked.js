@@ -1,11 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import axios from "../../axios.instance";
+import {Link} from "react-router-dom";
 import "./MostLiked.css";
 
 class SocialApp extends Component {
 
     state = {
         mostLikedData: null,
+        logout: false
     }
 
     componentDidMount() {
@@ -39,8 +41,16 @@ class SocialApp extends Component {
                 console.log(error);
                 this.setState({message: error.response.data.message})
             });
-    }    
+    }
 
+    handleLogout = () => {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("authUsername");
+        localStorage.removeItem("authUserId");
+        delete axios.defaults.headers.common["Authorization"];
+        this.setState({logout: true});
+    }
+    
     render() {
 
         let mostLiked = null;
@@ -62,6 +72,14 @@ class SocialApp extends Component {
 
         return (
             <Fragment>
+                <div className="Navbar">                                        
+                    {localStorage.authUsername ? (
+                        <Fragment>
+                            <Link className="Link" to="/profile">{localStorage.authUsername}</ Link>
+                            <button onClick={this.handleLogout}>Logout</button>
+                        </Fragment> )
+                    : <Link className="Link" to="/auth">Signup/in</ Link>}
+                </div>
                 {mostLiked}             
             </Fragment>
         )
