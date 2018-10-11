@@ -34,7 +34,7 @@ class Auth extends Component {
     handleSignup = (e) => {
         e.preventDefault();
         if (this.state.password1 !== this.state.password2) {
-            this.setState({message: "Passwords do not match"})
+            alert("Passwords do not match");
         } else {
             axios.post("/signup", {
                 username: this.state.username,
@@ -73,7 +73,7 @@ class Auth extends Component {
         return (
             <Fragment>
                 <div className="Navbar">
-                    <Link to="/" className="Link">Home</Link>
+                    <Link to="/" className="Link"><button>Home</button></Link>           
                 </div>                
                 <Signup
                     handleUsername={this.handleInputData("username")}

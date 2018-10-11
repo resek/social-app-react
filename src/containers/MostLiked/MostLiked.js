@@ -13,7 +13,6 @@ class SocialApp extends Component {
     componentDidMount() {
         axios.get("/most-liked")
             .then(response => {
-                console.log(response.data);
                 this.setState({mostLikedData: response.data}); 
             })
             .catch(error => {
@@ -23,23 +22,21 @@ class SocialApp extends Component {
 
     likeUser = (userId) => {
         axios.patch(`/user/${userId}/like`)
-            .then(response => {
-                console.log(response)
+            .then(() => {
+                this.componentDidMount();
             })
             .catch(error => {
-                console.log(error);
-                this.setState({message: error.response.data.message})
+                alert(error.response.data.message);
             });
     }
 
     unlikeUser = (userId) => {
         axios.patch(`/user/${userId}/unlike`)
-            .then(response => {
-                console.log(response)
+            .then(() => {
+                this.componentDidMount();
             })
             .catch(error => {
-                console.log(error);
-                this.setState({message: error.response.data.message})
+                alert(error.response.data.message);
             });
     }
 
@@ -75,10 +72,11 @@ class SocialApp extends Component {
                 <div className="Navbar">                                        
                     {localStorage.authUsername ? (
                         <Fragment>
-                            <Link className="Link" to="/profile">{localStorage.authUsername}</ Link>
+                            {localStorage.authUsername}
+                            <Link className="Link" to="/profile"><button>Profile</button></ Link>
                             <button onClick={this.handleLogout}>Logout</button>
                         </Fragment> )
-                    : <Link className="Link" to="/auth">Signup/in</ Link>}
+                    : <Link className="Link" to="/auth"><button>Signup/in</button></ Link>}
                 </div>
                 {mostLiked}             
             </Fragment>
