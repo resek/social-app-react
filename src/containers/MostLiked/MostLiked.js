@@ -11,19 +11,23 @@ class SocialApp extends Component {
     }
 
     componentDidMount() {
+        this.getMostLikedUsers();
+    }
+
+    getMostLikedUsers = () => {
         axios.get("/most-liked")
             .then(response => {
                 this.setState({mostLikedData: response.data}); 
             })
             .catch(error => {
                 console.log(error);
-            });        
+            });
     }
 
     likeUser = (userId) => {
         axios.patch(`/user/${userId}/like`)
             .then(() => {
-                this.componentDidMount();
+                this.getMostLikedUsers();
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -33,7 +37,7 @@ class SocialApp extends Component {
     unlikeUser = (userId) => {
         axios.patch(`/user/${userId}/unlike`)
             .then(() => {
-                this.componentDidMount();
+                this.getMostLikedUsers();
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -72,7 +76,7 @@ class SocialApp extends Component {
                 <div className="Navbar">                                        
                     {localStorage.authUsername ? (
                         <Fragment>
-                            {localStorage.authUsername}
+                            <span>{localStorage.authUsername}</span>
                             <Link className="Link" to="/profile"><button>Profile</button></ Link>
                             <button onClick={this.handleLogout}>Logout</button>
                         </Fragment> )
