@@ -36,7 +36,7 @@ class MostLiked extends Component {
 
     handleLogout = () => {
         localStorage.removeItem("jwtToken");
-        this.props.Store.logedinUserData = null;
+        this.props.Store.deleteUser();
         delete axios.defaults.headers.common["Authorization"];
         this.setState({logout: true});
     }

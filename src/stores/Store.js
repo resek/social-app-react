@@ -1,4 +1,4 @@
-import {observable, configure, decorate, runInAction} from "mobx";
+import {observable, configure, decorate, runInAction, action} from "mobx";
 import axios from "../axios.instance";
 import jwtDecode from 'jwt-decode';
 import setAuthToken from "../utils/setAuthToken";
@@ -22,6 +22,10 @@ class Store {
             });
     }
 
+    deleteUser = () => {
+        this.logedinUserData = null;
+    }
+
     handleToken = (response) => {
         const token = response.data.token;
         localStorage.setItem("jwtToken", token);
@@ -33,7 +37,8 @@ class Store {
 
 decorate(Store, {
     mostLikedData: observable,
-    logedinUserData: observable
+    logedinUserData: observable,
+    deleteUser: action,
 });
 
 export default new Store();
