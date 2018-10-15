@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
+import {observer, inject} from "mobx-react";
 import axios from "../../axios.instance";
 import {Redirect, Link} from "react-router-dom";
-import jwtDecode from 'jwt-decode';
 
 import Signup from "../../components/Signup/Signup";
 import Login from "../../components/Login/Login";
-import setAuthToken from "../../utils/setAuthToken";
 
 class Auth extends Component {
 
@@ -19,17 +18,7 @@ class Auth extends Component {
 
     handleInputData = (param) => (e) => {
         this.setState({[param]: e.target.value});
-    }
-    
-    saveToLocalStorage = (response) => {
-        const token = response.data.token;
-        localStorage.setItem("jwtToken", token);
-        setAuthToken(token);
-        const decoded = jwtDecode(token);
-        localStorage.setItem("authUsername", decoded.username);
-        localStorage.setItem("authUserId", decoded.userId);
-        this.setState({redirect: true});
-    }
+    } 
 
     handleSignup = (e) => {
         e.preventDefault();
@@ -42,7 +31,8 @@ class Auth extends Component {
                 password: this.state.password1
             })
             .then(response => {
-                this.saveToLocalStorage(response);
+                this.props.Store.handleToken(response);
+                this.setState({redirect: true});
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -57,7 +47,8 @@ class Auth extends Component {
             password: this.state.password1
         })
         .then(response => {
-            this.saveToLocalStorage(response);
+            this.props.Store.handleToken(response);
+            this.setState({redirect: true});
         })
         .catch(error => {
             alert(error.response.data.message);
@@ -90,4 +81,4 @@ class Auth extends Component {
     }   
 }
 
-export default Auth;
+export default inject("Store")(observer(Auth));

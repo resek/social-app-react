@@ -1,33 +1,23 @@
 import React, {Component, Fragment} from 'react';
+import {observer, inject} from "mobx-react";
 import axios from "../../axios.instance";
 import {Link} from "react-router-dom";
 import "./MostLiked.css";
 
-class SocialApp extends Component {
+class MostLiked extends Component {
 
     state = {
-        mostLikedData: null,
         logout: false
     }
 
     componentDidMount() {
-        this.getMostLikedUsers();
-    }
-
-    getMostLikedUsers = () => {
-        axios.get("/most-liked")
-            .then(response => {
-                this.setState({mostLikedData: response.data}); 
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
+        this.props.Store.getUsers();
+    }    
 
     likeUser = (userId) => {
         axios.patch(`/user/${userId}/like`)
             .then(() => {
-                this.getMostLikedUsers();
+                this.props.Store.getUsers();
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -37,7 +27,7 @@ class SocialApp extends Component {
     unlikeUser = (userId) => {
         axios.patch(`/user/${userId}/unlike`)
             .then(() => {
-                this.getMostLikedUsers();
+                this.props.Store.getUsers();
             })
             .catch(error => {
                 alert(error.response.data.message);
@@ -46,20 +36,21 @@ class SocialApp extends Component {
 
     handleLogout = () => {
         localStorage.removeItem("jwtToken");
-        localStorage.removeItem("authUsername");
-        localStorage.removeItem("authUserId");
+        this.props.Store.logedinUserData = null;
         delete axios.defaults.headers.common["Authorization"];
         this.setState({logout: true});
     }
     
     render() {
 
+        const {mostLikedData} = this.props.Store;
+        const {logedinUserData} = this.props.Store;
         let mostLiked = null;
 
-        if (this.state.mostLikedData) {            
+        if (mostLikedData) {            
             mostLiked = (
                 <Fragment>       
-                    {this.state.mostLikedData.map(user => (
+                    {mostLikedData.map(user => (
                         <div className="MostLiked" key={user._id}>
                             <p>Username: <b>{user.username}</b></p>
                             <p>Likes: <b>{user.likes.likesCount}</b></p>
@@ -74,9 +65,9 @@ class SocialApp extends Component {
         return (
             <Fragment>
                 <div className="Navbar">                                        
-                    {localStorage.authUsername ? (
+                    {logedinUserData ? (
                         <Fragment>
-                            <span>{localStorage.authUsername}</span>
+                            <span>{logedinUserData.username}</span>
                             <Link className="Link" to="/profile"><button>Profile</button></ Link>
                             <button onClick={this.handleLogout}>Logout</button>
                         </Fragment> )
@@ -88,4 +79,4 @@ class SocialApp extends Component {
     }
 }
 
-export default SocialApp;
+export default inject("Store")(observer(MostLiked));

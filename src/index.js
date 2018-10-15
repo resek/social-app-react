@@ -5,10 +5,15 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import {Provider} from "mobx-react";
+import Store from "./stores/Store";
+
 const app = (
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider Store={Store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>  
+    </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));
