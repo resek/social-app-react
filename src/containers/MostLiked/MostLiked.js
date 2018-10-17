@@ -12,6 +12,9 @@ class MostLiked extends Component {
 
     componentDidMount() {
         this.props.Store.getUsers();
+        if (localStorage.jwtToken) {
+            this.props.Store.getUserFromToken();
+        }        
     }    
 
     likeUser = (userId) => {

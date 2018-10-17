@@ -58,7 +58,7 @@ class Profile extends Component {
             )
         }
 
-        return(
+        return (
             <Fragment>
                 <div className="Navbar">
                     <Link to="/" className="Link"><button>Home</button></Link>           

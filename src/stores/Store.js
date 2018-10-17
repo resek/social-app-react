@@ -30,8 +30,12 @@ class Store {
         const token = response.data.token;
         localStorage.setItem("jwtToken", token);
         setAuthToken(token);
-        const decoded = jwtDecode(token);
-        this.logedinUserData = decoded;
+        this.logedinUserData = jwtDecode(token);
+    }
+
+    getUserFromToken = () => {
+        const token = localStorage.getItem("jwtToken");
+        this.logedinUserData = jwtDecode(token);
     }
 }
 
@@ -39,6 +43,7 @@ decorate(Store, {
     mostLikedData: observable,
     logedinUserData: observable,
     deleteUser: action,
+    getUserFromToken: action,
 });
 
 export default new Store();
