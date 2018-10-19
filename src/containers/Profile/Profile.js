@@ -21,8 +21,8 @@ class Profile extends Component {
             });        
     }
 
-    handleInputData = (param) => (e) => {
-        this.setState({[param]: e.target.value});
+    handleInputData = (e) => {
+        this.setState({newPassword: e.target.value});
     }
 
     changePassword = (e) => {
@@ -65,7 +65,7 @@ class Profile extends Component {
                 </div>
                 {logedinUser}
                 <form>
-                    <input className="ChangePassword" placeholder="change password" type="password" onChange={this.handleInputData("newPassword")}></input>
+                    <input className="ChangePassword" placeholder="change password" type="password" onChange={this.handleInputData}></input>
                     <button onClick={this.changePassword}>Change password</button>
                 </form>                
             </Fragment>

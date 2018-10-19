@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders component correctly 1`] = `
+<Fragment>
+  <div
+    className="Navbar"
+  >
+    <Link
+      className="Link"
+      replace={false}
+      to="/"
+    >
+      <button>
+        Home
+      </button>
+    </Link>
+  </div>
+  <form>
+    <input
+      className="ChangePassword"
+      onChange={[Function]}
+      placeholder="change password"
+      type="password"
+    />
+    <button
+      onClick={[Function]}
+    >
+      Change password
+    </button>
+  </form>
+</Fragment>
+`;
