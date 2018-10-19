@@ -64,7 +64,7 @@ class Auth extends Component {
         return (
             <Fragment>
                 <div className="Navbar">
-                    <Link to="/" className="Link"><button>Home</button></Link>           
+                    <Link to="/" className="Link"><button>Home</button></Link> 
                 </div>                
                 <Signup
                     handleUsername={this.handleInputData("username")}
