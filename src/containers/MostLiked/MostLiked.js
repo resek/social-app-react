@@ -4,6 +4,8 @@ import axios from "../../axios.instance";
 import {Link} from "react-router-dom";
 import "./MostLiked.css";
 
+import Spinner from "../../components/Spinner/Spinner";
+
 class MostLiked extends Component {
 
     state = {
@@ -50,7 +52,9 @@ class MostLiked extends Component {
         const {logedinUserData} = this.props.Store;
         let mostLiked = null;
 
-        if (mostLikedData) {            
+        if (mostLikedData == null) {
+            mostLiked = <Spinner />
+        } else {
             mostLiked = (
                 <Fragment>       
                     {mostLikedData.map(user => (
@@ -62,9 +66,9 @@ class MostLiked extends Component {
                         </div>
                     ))}
                 </Fragment>
-            )            
-        }
-
+            )
+        }          
+                        
         return (
             <Fragment>
                 <div className="Navbar">                                        
